@@ -26,8 +26,13 @@ int main(void){
 		//Save the float as an unsigned int value in array
 		array[i] = *((unsigned int*)&received);
 	}
-
+	
+	//Perform the radix sort. Note: array is treated as unsigned, so order will be wrong
 	radix_sort_unsigned_int(array, numFloats);
+
+	//flip the array into signed order
+	to_signed_order(array, numFloats);
+
 
 	printf("\n");
 
@@ -44,7 +49,6 @@ int main(void){
 void radix_sort_unsigned_int(unsigned int* arr, int size){
 	//predeclare resetArr function
 	void resetArr(int* arr, int size);
-
 	//The buffer array will be saved to when we do our bucket sort
 	unsigned int* buffer = (unsigned int*)malloc(size * sizeof(float));
 
@@ -84,6 +88,7 @@ void radix_sort_unsigned_int(unsigned int* arr, int size){
 			//Grab the "ith" nibble again
 			nibble = (arr[j] >> (4*i)) & mask;
 			//Dereference the pointer and place the element arr[j] in the buffer
+			//	*(bucketStart[nibble]) = arr[j];
 			**(bucketStart + nibble) = arr[j];
 			//Increment pointer by 1 for the next element in this bucket
 			bucketStart[nibble]++;
@@ -112,3 +117,47 @@ void resetArr(int* arr, int size){
 		arr[i] = 0;
 	}
 }
+
+
+void to_signed_order(unsigned int* arr, int size){
+	//First, we need to find the first negative number
+	int firstNeg = 0;
+	for(; firstNeg < size; firstNeg++){
+		//break out once we find the first negative
+		if((int)arr[firstNeg] < 0){
+			break;
+		}
+	}
+
+	//Get the subset of all positive floats (still treating them as ints for this purpose)
+	unsigned int* posSubset = (unsigned int*)malloc(firstNeg * sizeof(int));
+	for(int i = 0; i < firstNeg; i++){
+		posSubset[i] = arr[i];
+	}
+
+	//Get the subset of all negative floats(still treating them as ints for this purpose)
+	unsigned int* negSubset = (unsigned int*)malloc((size-firstNeg) * sizeof(int));
+	unsigned int* negSubsetP = negSubset;
+	//load them in backwards
+	for(int i = size - 1; i >= firstNeg; i--){
+		//use pointer for convenience
+		*negSubsetP = arr[i];
+		negSubsetP++;
+	}
+
+	//now both subsets should be in signed order, we can simply combine them
+	for(int i = 0; i < size; i++){
+		//The first size-firstneg numbers will be negative
+		if(i < size - firstNeg){
+			arr[i] = negSubset[i];
+		} else {
+			//The remaining numbers will be positive
+			arr[i] = posSubset[i-(size - firstNeg)];
+		}
+	}
+
+	//Once we're done, free the subset arrays
+	free(negSubset);
+	free(posSubset);
+}
+
