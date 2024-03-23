@@ -29,7 +29,7 @@ int main(void){
 
 	radix_sort_unsigned_int(array, numFloats);
 
-	printf("\n\n");
+	printf("\n");
 
 	for(int i = 0; i < numFloats; i++){
 		printf("%.2f\n", *(float*)&array[i]);
@@ -61,18 +61,17 @@ void radix_sort_unsigned_int(unsigned int* arr, int size){
 	for(int i = 0; i < 8; i++){
 		//We'll need to reset counters every iteration
 		resetArr(counters, 16);
-		printf("here1\n");
 		//First go through arr, building up the counters array(number of elements per bucket)
 		for(int j = 0; j < size; j++){
 			//Grab the "ith" nibble
 			nibble = (arr[j] >> (4*i)) & mask;
-			printf("%d", nibble);
 			//The nibble is used as our index. Increment the count and nibble
 			counters[nibble]++;
 		}
 
 		int sum = 0;
-		printf("here2");
+		//Ensure we initialize bucketStart[0] to the first element of buffer
+		bucketStart[0] = buffer;
 		//Set the pointers to point appropriately into the array
 		for(int k = 1; k < 16; k++){
 			sum += counters[k-1];
@@ -85,18 +84,14 @@ void radix_sort_unsigned_int(unsigned int* arr, int size){
 			//Grab the "ith" nibble again
 			nibble = (arr[j] >> (4*i)) & mask;
 			//Dereference the pointer and place the element arr[j] in the buffer
-			*bucketStart[nibble] = arr[j];
+			**(bucketStart + nibble) = arr[j];
 			//Increment pointer by 1 for the next element in this bucket
 			bucketStart[nibble]++;
 		}
-
-		printf("here3");
 		//swap both arrays
 		unsigned int* temp = arr;
 		arr = buffer;
 		buffer = temp;
-
-		printf("here4");
 	}
 	
 

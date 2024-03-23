@@ -22,7 +22,7 @@ done | tee -a floats
 
 #Display the radix sort execution result
 echo "============= execution result ================"
-cat floats | radix_sort_floats | xargs printf "%.2f\n" | tee radix_sorted
+cat floats | ./radix_sort_floats | xargs printf "%.2f\n" | tee radix_sorted
 tail -n +2 floats | sort -n | xargs printf "%.2f\n" > standard_sorted
 
 #Display any differences between the generic sort and radix sort
