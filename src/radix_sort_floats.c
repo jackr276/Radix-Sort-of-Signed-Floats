@@ -137,6 +137,7 @@ void to_signed_order(unsigned int* arr, int size){
 
 	//Get the subset of all negative floats(still treating them as ints for this purpose)
 	unsigned int* negSubset = (unsigned int*)malloc((size-firstNeg) * sizeof(int));
+	//We will be mutating this pointer, so we can't mess with the original reference
 	unsigned int* negSubsetP = negSubset;
 	//load them in backwards
 	for(int i = size - 1; i >= firstNeg; i--){
