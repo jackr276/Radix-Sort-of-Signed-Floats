@@ -15,8 +15,7 @@ rm standard_sorted
 #Randomly generate floating point input
 echo "================== input ======================"
 echo ${count} | tee floats 
-for (( i=0; i<${count}; i++ ));
-do
+for (( i=0; i<${count}; i++ )); do
     printf "%d.%d\n" $((($RANDOM-$RANDOM)%1000)) $RANDOM
 done | tee -a floats
 

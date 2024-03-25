@@ -7,6 +7,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/**
+ * The main function disregards command line paramaters, receives input from the command
+ * line, and calls the necessary functions. Following this, it also prints the sorted
+ * array back to the command line, one float per line
+ */
 int main(void){
 	//Predeclare the functions that will be used
 	void radix_sort_unsigned_int(unsigned int* arr, int size);
@@ -33,9 +38,8 @@ int main(void){
 	//flip the array into signed order
 	to_signed_order(array, numFloats);
 
-
+	//Print out the now sorted array, floats are rounded to the nearest hundredth
 	printf("\n");
-
 	for(int i = 0; i < numFloats; i++){
 		printf("%.2f\n", *(float*)&array[i]);
 	}
@@ -46,6 +50,12 @@ int main(void){
 }
 
 
+/**
+ * This function treats the original float array as an array of unsigned ints, and sorts them
+ * using a hexadecimal radix sort(4 bits per iteration). The resultant array is not sorted in
+ * proper signed float order, but is sorted in unsigned int order. Another function handles the
+ * changing into signed order
+ */
 void radix_sort_unsigned_int(unsigned int* arr, int size){
 	//predeclare resetArr function
 	void resetArr(int* arr, int size);
@@ -93,19 +103,18 @@ void radix_sort_unsigned_int(unsigned int* arr, int size){
 			//Increment pointer by 1 for the next element in this bucket
 			bucketStart[nibble]++;
 		}
+
 		//swap both arrays
 		unsigned int* temp = arr;
 		arr = buffer;
 		buffer = temp;
 	}
 	
-
 	//Free when done sorting
 	free(counters);
 	free(buffer);
 	//Bucket start only contains pointers(not malloc'd) so we can free normally
 	free(bucketStart);
-
 }
 
 
@@ -119,6 +128,11 @@ void resetArr(int* arr, int size){
 }
 
 
+/**
+ * This function takes in an unsigned int array that has already been sorted in unsigned order,
+ * and converts it into signed order, using the knowledge that radix sort will sort positive floats
+ * in ascending order, and negative floats in descending order
+ */
 void to_signed_order(unsigned int* arr, int size){
 	//First, we need to find the first negative number
 	int firstNeg = 0;
@@ -137,7 +151,7 @@ void to_signed_order(unsigned int* arr, int size){
 
 	//Get the subset of all negative floats(still treating them as ints for this purpose)
 	unsigned int* negSubset = (unsigned int*)malloc((size-firstNeg) * sizeof(int));
-	//We will be mutating this pointer, so we can't mess with the original reference
+	//We will be mutating this pointer, so make a duplicate to preserve negSubset 
 	unsigned int* negSubsetP = negSubset;
 	//load them in backwards
 	for(int i = size - 1; i >= firstNeg; i--){
