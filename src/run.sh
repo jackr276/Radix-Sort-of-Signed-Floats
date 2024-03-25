@@ -16,7 +16,8 @@ rm standard_sorted
 echo "================== input ======================"
 echo ${count} | tee floats 
 for (( i=0; i<${count}; i++ )); do
-    printf "%d.%d\n" $((($RANDOM-$RANDOM)%1000)) $RANDOM
+    #generate random decimal values
+	printf "%d.%d\n" $((($RANDOM-$RANDOM)%1000)) $RANDOM
 done | tee -a floats
 
 #Display the radix sort execution result
