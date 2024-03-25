@@ -41,7 +41,7 @@ int main(void){
 	//Print out the now sorted array, floats are rounded to the nearest hundredth
 	printf("\n");
 	for(int i = 0; i < numFloats; i++){
-		printf("%.2f\n", *(float*)&array[i]);
+		printf("%.2f\n", *((float*)&array[i]));
 	}
 
 	//free when done
