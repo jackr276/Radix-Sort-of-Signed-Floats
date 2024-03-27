@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 /**
  * The main function disregards command line paramaters, receives input from the command
  * line, and calls the necessary functions. Following this, it also prints the sorted
@@ -39,7 +40,6 @@ int main(void){
 	to_signed_order(array, numFloats);
 
 	//Print out the now sorted array, floats are rounded to the nearest hundredth
-	printf("\n");
 	for(int i = 0; i < numFloats; i++){
 		printf("%.2f\n", *((float*)&array[i]));
 	}
