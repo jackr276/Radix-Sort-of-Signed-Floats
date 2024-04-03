@@ -43,7 +43,7 @@ The program [radix_sort_floats.c](https://github.com/jackr276/Radix-Sort-of-Sign
 The runner script [run.sh](https://github.com/jackr276/Radix-Sort-of-Signed-Floats/blob/main/src/run.sh) provides a convenient way to run the **radix_sort_floats.c** program. The script takes in a positive integer value and generates the appropriate number of integers, saving them into a file named `floats`. It will then pass the
 values in this file into **radix_sort_floats.c** and into the standard `sort` command in Bash. The results of both of these procedures are stored in individual files, and compared using the `diff` command to demonstrate the correct functionality of **radix_sort_floats.c**. An example of how to use this script is given below.
 
->[!NOTE]
+>[!IMPORTANT]
 >Be sure to grant executable permissions to `run.sh` by running `chmod +x run.sh`
 
 ```console
@@ -52,3 +52,20 @@ Warning: using 500 floats will generate 3 files each of approximate size 2KB
 Are you sure you want to proceed?[Y/N]: Y
 # Program output follows this
 ```
+
+>[!NOTE]
+>Due to differences in the way that printf works in `Bash` versus `C`, when running radix sort on particularly large sets of floating point numbers, there is a chance that you may get something that looks like this:
+>```console
+>====== differences from correct result =======
+>50c50
+>< -911.32
+>---
+>> -911.31
+>841c841
+>< 637.14
+>---
+>> 637.13
+>
+>```
+>Notice how the rounding of these floating point numbers is off by about a hundredth or so. The chance of inconsistencies like this is very low, but when using large sets of floating point numbers, it is normal to have one or two come out like this. It does not affect the sorting algorithm at its core at all, and is merely an issue
+>with printing/interpreting the floating point numbers.
