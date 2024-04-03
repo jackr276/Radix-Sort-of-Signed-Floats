@@ -65,7 +65,6 @@ Are you sure you want to proceed?[Y/N]: Y
 >< 637.14
 >---
 >> 637.13
->
 >```
 >Notice how the rounding of these floating point numbers is off by about a hundredth or so. The chance of inconsistencies like this is very low, but when using large sets of floating point numbers, it is normal to have one or two come out like this. It does not affect the sorting algorithm at its core at all, and is merely an issue
 >with printing/interpreting the floating point numbers.
