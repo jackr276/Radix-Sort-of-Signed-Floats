@@ -1,7 +1,6 @@
 /**
  * Author: Jack Robbins
- * 03/29/2024
- * Homework 05, only problem(Radix sort of signed floats)
+ * This C program implements a hexadecimal radix sort of signed floating point numbers 
  */
 
 #include <stdlib.h>

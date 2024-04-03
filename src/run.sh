@@ -7,6 +7,18 @@ count=$1
 #recompile
 gcc -Wall -Wextra radix_sort_floats.c -o radix_sort_floats
 
+#warn users about large file size generation
+if [[ count -gt 249 ]]; then
+	echo "Warning: using ${count} floats will generate 3 files each of approximate size $(($count*4/1000))KB"
+	read -p "Are you sure you want to proceed[Y/N]: " ANSWER
+
+	#abort if user does not agree
+	if [[ $ANSWER != "Y" ]] && [[ $ANSWER != "y" ]]; then 
+		echo "Aborting"
+		exit 0
+	fi
+fi
+
 #Remove all old files
 rm floats
 rm radix_sorted 
